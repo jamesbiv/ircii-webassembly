@@ -8,7 +8,7 @@
 
 <h2>Installation</h2>
 
-<p>It's recommended to create a seperate directory to build this project in. For example <em>ircii-emscripten/</em>.</p>
+<p>It's recommended to create a separate directory to build this project in. For example <em>ircii-emscripten/</em>.</p>
 
 <p><b>Note</b>: This build of ircII depends on ncurses for Emscripten, see <a href="https://github.com/jamesbiv/ncurses-emscripten" target="_blank">jamesbiv/ncurses-emscripten</a> to compile and build your own copy or you can use what's stored in the <em>build/</em> directory. Further, be sure to have the absolute path of the <em>build/</em> directory handy to replace the areas marked <b>PATH_TO_NCURSES</b> throughout the below compilation process.</p>
 
@@ -135,7 +135,7 @@ Add (append) <b>-IPATH_TO_NCURSES/include</b> to the end of <b>INCLUDES = -I ...
 
 <h2>Final Considerations</h2>
 
-<p>IrcII for Emscripten was a fun project and opens up many possibilities and areas for improvement. Should a future project arise from this patch level I believe forking and customising the current ircii build would be the best senario.</p>
+<p>IrcII for Emscripten was a fun project and opens up many possibilities and areas for improvement. Should a future project arise from this patch level I believe forking and customising the current ircii build would be the best scenario.</p>
 
 <p>Also, since Emscripten relies on WebSockets to handle communications disabling OpenSSL at a C level is required. TLS/SSL communications are evoked using <b>wss://</b> as the WebSocket connection string.</p>
 
