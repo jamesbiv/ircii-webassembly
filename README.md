@@ -4,7 +4,9 @@
 
 <p>ircII is a free, open-source Unix IRC and ICB client written in C. Initially released in the late 1980s, it is the oldest IRC client still maintained. <a href="https://en.wikipedia.org/wiki/IrcII" target="_blank">Wikipedia</a>.</p>
 
-<p>Emulating ircII to work in WebAssembly requires changing the configure script, reworking the Makefile, adjusting the defs.h, and adding support for ncurses for Emscripten. Along with a patch file and emscripten shell file which I have created for this repository.</p>
+<p>In order to emulate ircII to work in WebAssembly you'll need to change the configure script, rework the Makefile, adjust the defs.h, and add support for ncurses for Emscripten.</p>
+
+<p>Further, you'll also need a copy of the patch file and Emscripten shell file which I have uploaded to this repository.</p>
   
 <h2>Installation</h2>
 
