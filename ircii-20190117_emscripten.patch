@@ -17,7 +17,7 @@ diff -Naur ircii-20190117/include/irc_std.h ircii-20190117_emscripten/include/ir
 +  int length = strlen(data);\
 +  char* dest = (char*)malloc(length+1);\
 +  dest[length+1] = '\0';\
-+  strncpy(dest, data, length+1);\
++  strncpy(dest, data, length);\
 +  dest;\
 +})
 +#endif
