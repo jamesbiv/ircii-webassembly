@@ -4,11 +4,13 @@
 
 <p>ircII is a free, open-source Unix IRC and ICB client written in C. Initially released in the late 1980s, it is the oldest IRC client still maintained. <a href="https://en.wikipedia.org/wiki/IrcII" target="_blank">Wikipedia</a>.</p>
 
-<p>Emulating ircII to work in WebAssembly required the reworking of the Makefile, adjusting the defs.h, removing of OpenSSL and including ncurses for Emscripten. Along with a patch file located in this repository.</p>
+<p>Emulating ircII to work in WebAssembly required the reworking of the Makefile, adjusting the defs.h, removing the OpenSSL linkages, and adding support for ncurses for Emscripten. Along with a patch file and emscripten shell file which I have created for this repository.</p>
 
 <h2>Installation</h2>
 
 <p>It's recommended to create a seperate directory to build this project in. For example <em>ircii-emscripten/</em>.</p>
+
+<p><b>Note</b>: This build of ircII depends on ncurses for Emscripten, see <a href="https://github.com/jamesbiv/ncurses-emscripten" target="_blank">jamesbiv/ncurses-emscripten</a> to compile and build your own copy or you can use what's stored in the <em>build/</em> directory. Further, be sure to have the absolute path of the <em>build/</em> directory handy to replace the areas marked <b>PATH_TO_NCURSES</b> throughout the below compilation process.</p>
 
 <h3>Downloading the required files</h3>
 
@@ -42,8 +44,6 @@
 
 <h3>Configure and make the Emscripten components</h3>
 
-<p>In order to install ircII you'll need ncurses for Emscripten see <a href="https://github.com/jamesbiv/ncurses-emscripten" target="_blank">jamesbiv/ncurses-emscripten</a> to compile and build your own copy or you can use what's stored in the <em>build/</em> directory.</p>
-
 <p><b>Note</b>: Be sure to replace <b>PATH_TO_NCURSES</b> with the absolute path to the ncurses for emscripten <em>build/</em> directory.</p>
 
 <pre>~$ export CPPFLAGS='-I<b>PATH_TO_NCURSES</b>/include'</pre>
@@ -62,7 +62,7 @@ Remove <b>-lssl -lcrypto</b> from <b>LIBS = ... </b></pre>
 <p><b>Note</b>: Be sure to replace <b>PATH_TO_NCURSES</b> with the absolute path to the ncurses for emscripten <em>build/</em> directory.</p>
 
 <pre>Line 320
-Add (append) <b>-IPATH_TO_NCURSES/include</b> to the end of <b>INCLUDES =  -I ...</b></pre>
+Add (append) <b>-IPATH_TO_NCURSES/include</b> to the end of <b>INCLUDES = -I ...</b></pre>
 
 <p>Save and close nano</p>
 
@@ -71,27 +71,28 @@ Add (append) <b>-IPATH_TO_NCURSES/include</b> to the end of <b>INCLUDES =  -I ..
 <pre>~$ nano -w ./defs.h</pre>
 
 <p>Change the following segments to reflect the following:</p>
-
 <pre>Line 44
 /* #undef HAVE_GETNAMEINFO */</pre>
 <p>To</p>
 <pre>Line 44
 #define HAVE_GETNAMEINFO 1</pre>
 
+<p>Change</p>
 <pre>Line 119
- #define HAVE_SYS_FCNTL_H 1</pre>
+#define HAVE_SYS_FCNTL_H 1</pre>
 <p>To</p>
 <pre>Line 119
 /* #undef HAVE_SYS_FCNTL_H */</pre>
 
+<p>Change</p>
 <p><b>Note</b>: <em>NON_BLOCKING_CONNECTS</em> should be declared but it's best to check it anyway.</p>
-  
 <pre>Line 180
 /* #undef NON_BLOCKING_CONNECTS */</pre>
 <p>To</p>
 <pre>Line 180
 #define NON_BLOCKING_CONNECTS 1</pre>
 
+<p>Change</p>
 <pre>Line 221
 #define USE_OPENSSL 1</pre>
 <p>To</p>
@@ -120,7 +121,7 @@ Add (append) <b>-IPATH_TO_NCURSES/include</b> to the end of <b>INCLUDES =  -I ..
 
 <p>Xterm.js is a great library that emulates a terminal very quickly and works well with ncurses.</p>
 
-<p>You'll need to download a copy from <a href="https://github.com/xtermjs/xterm.js" target="_blank">/xtermjs/xterm.js</a> or you can use the <em>.min</em> versions that I have uploaded on the <a href="http://68.183.3.42/ircii-emscripten/irc.html" target="_blank">demo site</a>.</p>
+<p>You'll need to download a copy from <a href="https://github.com/xtermjs/xterm.js" target="_blank">xtermjs/xterm.js</a> or you can use the <em>.min</em> versions that I have uploaded on the <a href="http://68.183.3.42/ircii-emscripten/irc.html" target="_blank">demo site</a>.</p>
 
 <h2>Socket Setup - WebSockets</h2>
 
