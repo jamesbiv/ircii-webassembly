@@ -78,6 +78,12 @@ Add (append) <b>-IPATH_TO_NCURSES/include</b> to the end of <b>INCLUDES =  -I ..
 <pre>Line 44
 #define HAVE_GETNAMEINFO 1</pre>
 
+<pre>Line 119
+ #define HAVE_SYS_FCNTL_H 1</pre>
+<p>To</p>
+<pre>Line 119
+/* #undef HAVE_SYS_FCNTL_H */</pre>
+
 <p><b>Note</b>: <em>NON_BLOCKING_CONNECTS</em> should be declared but it's best to check it anyway.</p>
   
 <pre>Line 180
