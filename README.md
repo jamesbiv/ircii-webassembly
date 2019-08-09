@@ -110,8 +110,6 @@ Add (append) <b>-IPATH_TO_NCURSES/include</b> to the end of <b>INCLUDES =  -I ..
 
 <pre>emcc -o irc.html irc.bc -O3 -g2 --preload-file <b>PATH_TO_NCURSES</b>/share/terminfo@/home/web_user/.terminfo -s WASM=1 -s FORCE_FILESYSTEM=1 --shell-file ./irc_shell.html -s EMTERPRETIFY=1 -s EMTERPRETIFY_ASYNC=1 -s EMTERPRETIFY_WHITELIST='["_main", "_irc_io"]' -s TOTAL_MEMORY=32Mb --no-heap-copy -s ASSERTIONS=1</pre>
 
-<p><b>Important note</b>: Ideally removing <em>-s ASSERTIONS=1</em> would reduce code size and be more production ready. Since file system reads are made to files that don't exist Emscripten throws an exception and is something minor to debug. Please read my final considerations below for more detail.</p>
-
 <h2>Installing XTerm.js</h2>
 
 <p>Xterm.js is a great library that emulates a terminal very quickly and works well with ncurses.</p>

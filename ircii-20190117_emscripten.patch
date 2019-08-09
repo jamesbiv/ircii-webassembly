@@ -1,7 +1,7 @@
 diff -Naur ircii-20190117/include/irc_std.h ircii-20190117_emscripten/include/irc_std.h
---- ircii-20190117/include/irc_std.h	2019-01-16 14:20:02.000000000 -0300
-+++ ircii-20190117_emscripten/include/irc_std.h	2019-07-29 12:20:38.508081596 -0300
-@@ -79,6 +79,22 @@
+--- ircii-20190117/include/irc_std.h	2019-01-18 07:29:41.000000000 -0300
++++ ircii-20190117_emscripten/include/irc_std.h	2019-08-08 21:50:15.514897464 -0300
+@@ -79,6 +79,23 @@
  #include <stdint.h>
  #include <string.h>
  #include <stdlib.h>
@@ -11,12 +11,13 @@ diff -Naur ircii-20190117/include/irc_std.h ircii-20190117_emscripten/include/ir
 +#undef getenv
 +#endif
 +
-+#define getenv(name) (char*)({\
-+\
++#define getenv(name)(char*)\
++({\
 +  char* data = getenv(name);\
-+  int len = strlen(data) + 1;\
-+  char* dest = (char*)malloc(len * sizeof(char));\
-+  strcpy(dest, data);\
++  int length = strlen(data);\
++  char* dest = (char*)malloc(length+1);\
++  dest[length+1] = '\0';\
++  strncpy(dest, data, length);\
 +  dest;\
 +})
 +#endif
@@ -25,8 +26,8 @@ diff -Naur ircii-20190117/include/irc_std.h ircii-20190117_emscripten/include/ir
  # include <memory.h>
  #endif /* HAVE_MEMORY_H */
 diff -Naur ircii-20190117/include/ircterm.h ircii-20190117_emscripten/include/ircterm.h
---- ircii-20190117/include/ircterm.h	2019-01-16 14:20:02.000000000 -0300
-+++ ircii-20190117_emscripten/include/ircterm.h	2019-07-29 12:20:38.508081596 -0300
+--- ircii-20190117/include/ircterm.h	2019-01-18 07:29:41.000000000 -0300
++++ ircii-20190117_emscripten/include/ircterm.h	2019-08-08 18:31:51.018897464 -0300
 @@ -41,6 +41,10 @@
  # include <curses.h>
  #endif /* INCLUDE_CURSES_H */
@@ -39,8 +40,8 @@ diff -Naur ircii-20190117/include/ircterm.h ircii-20190117_emscripten/include/ir
  # define TPUTSRETVAL int
  # define TPUTSARGVAL int
 diff -Naur ircii-20190117/source/irc.c ircii-20190117_emscripten/source/irc.c
---- ircii-20190117/source/irc.c	2019-01-18 07:35:34.000000000 -0300
-+++ ircii-20190117_emscripten/source/irc.c	2019-07-29 12:20:38.508081596 -0300
+--- ircii-20190117/source/irc.c	2019-01-18 07:31:26.000000000 -0300
++++ ircii-20190117_emscripten/source/irc.c	2019-08-08 22:07:28.194897464 -0300
 @@ -73,6 +73,10 @@
  #include "notice.h"
  #include "icb.h"
@@ -85,9 +86,45 @@ diff -Naur ircii-20190117/source/irc.c ircii-20190117_emscripten/source/irc.c
  	}
  	while (irc_io_loop);
  
+@@ -934,7 +950,7 @@
+ 	else
+ 	{
+ 		init_screen();
+-
++#ifndef __EMSCRIPTEN__
+ #if defined(SIGCONT)
+ 		(void) MY_SIGNAL(SIGCONT, (sigfunc *) term_cont, 0);
+ #endif
+@@ -1004,6 +1020,7 @@
+ #endif
+ 		/* More signals could probably be added, perhaps some
+ 		   should be removed */
++#endif
+ 	}
+ 
+ 	init_variables();
+diff -Naur ircii-20190117/source/notice.c ircii-20190117_emscripten/source/notice.c
+--- ircii-20190117/source/notice.c	2019-01-18 07:29:41.000000000 -0300
++++ ircii-20190117_emscripten/source/notice.c	2019-08-08 22:00:54.082897464 -0300
+@@ -291,6 +291,7 @@
+ void
+ load_ircrc(void)
+ {
++#ifndef __EMSCRIPTEN__
+ 	static	int done = 0;
+ 
+ 	if (done++)
+@@ -306,6 +307,7 @@
+ 	}
+ 	else if (get_int_var(NOVICE_VAR))
+ 		say("If you have not already done so, please read the new user information with /HELP NEWUSER");
++#endif
+ }
+ 
+ /*
 diff -Naur ircii-20190117/source/server.c ircii-20190117_emscripten/source/server.c
---- ircii-20190117/source/server.c	2019-04-26 15:20:02.000000000 -0300
-+++ ircii-20190117_emscripten/source/server.c	2019-07-29 12:27:28.748081596 -0300
+--- ircii-20190117/source/server.c	2019-01-18 07:29:41.000000000 -0300
++++ ircii-20190117_emscripten/source/server.c	2019-08-08 18:31:51.018897464 -0300
 @@ -332,7 +332,7 @@
  	for (j = 0; j < number_of_servers(); j++)
  	{
@@ -130,8 +167,8 @@ diff -Naur ircii-20190117/source/server.c ircii-20190117_emscripten/source/serve
  	else
  	{
 diff -Naur ircii-20190117/source/term.c ircii-20190117_emscripten/source/term.c
---- ircii-20190117/source/term.c	2015-09-05 15:20:02.000000000 -0300
-+++ ircii-20190117_emscripten/source/term.c	2019-07-29 12:20:38.508081596 -0300
+--- ircii-20190117/source/term.c	2019-01-18 07:29:41.000000000 -0300
++++ ircii-20190117_emscripten/source/term.c	2019-08-08 18:31:51.018897464 -0300
 @@ -56,6 +56,11 @@
  #include "screen.h"
  #include "output.h"
