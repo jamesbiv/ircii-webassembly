@@ -6,7 +6,7 @@
 
 <p>Emulating ircII to work in WebAssembly required the reworking of the Makefile, adjusting the defs.h, removing OpenSSL support*, and adding support for ncurses for Emscripten. Along with a patch file and emscripten shell file which I have created for this repository.</p>
 
-<p>* <b>Note:</b> TLS/SSL communications are handled via WebSockets, see <a href="#finalconsiderations">final considerations</a> below.</p>
+<p>* <b>Note:</b> TLS/SSL communications are handled via <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API" target="_blank">WebSockets</a>, see <a href="#finalconsiderations">final considerations</a> below.</p>
   
 <h2>Installation</h2>
 
