@@ -1,18 +1,20 @@
-<h1>ircII for Emscripten (WASM) with Emterpreter</h1>
+<h1>ircII in WebAssembly</h1>
 
 <h2>Introduction</h2>
 
 <p>ircII is a free, open-source Unix IRC and ICB client written in C. Initially released in the late 1980s, it is the oldest IRC client still maintained. <a href="https://en.wikipedia.org/wiki/IrcII" target="_blank">Wikipedia</a>.</p>
 
-<p>In order to emulate ircII to work in WebAssembly you'll need to change the configure script, rework the Makefile, adjust the defs.h, and add support for ncurses for Emscripten.</p>
+<p>This limited emulation of ircII in WebAssembly demonstrates the use of POSIX and similar libraries such as <a href="https://en.wikipedia.org/wiki/Ncurses" target="_blank">ncurses</a> within the <a href="https://emscripten.org/" target="_blank">Emscripten</a> environment.</p>
 
-<p>Further, you'll also need a copy of the patch file and Emscripten shell file which I have uploaded to this repository.</p>
+<p>Advantages of this technology can be found if Emscripten's <a href="https://emscripten.org/docs/api_reference/Filesystem-API.html#FS.init">output</a> work inline with Progressive Web Applications (PWAs) and relay screen dimentions dynamically. Further, both ircII and ncurses compile sizes are fairly large meaining optimisations to reduce compile output is important.</p>
+
+<p>Furthermore, help files and other extended parts of this emulation such as DCC may not work, however, makes the client fun to tinker with as it functions as a working IRC client.</p>
   
 <h2>Installation</h2>
 
-<p>It's recommended to create a separate directory to build this project in. For example <em>ircii-emscripten/</em>.</p>
+<p><b>Important Note</b>: This build of ircII depends on ncurses for Emscripten, see <a href="https://github.com/jamesbiv/ncurses-emscripten" target="_blank">jamesbiv/ncurses-emscripten</a> to compile and build your own copy or you can use what's stored in the <em>build/</em> directory. Further, be sure to have the absolute path of the <em>build/</em> directory handy to replace the areas marked <b>PATH_TO_NCURSES</b> throughout the below compilation process.</p>
 
-<p><b>Note</b>: This build of ircII depends on ncurses for Emscripten, see <a href="https://github.com/jamesbiv/ncurses-emscripten" target="_blank">jamesbiv/ncurses-emscripten</a> to compile and build your own copy or you can use what's stored in the <em>build/</em> directory. Further, be sure to have the absolute path of the <em>build/</em> directory handy to replace the areas marked <b>PATH_TO_NCURSES</b> throughout the below compilation process.</p>
+<p>It's recommended to create a separate directory to build this project in. For example <em>ircii-emscripten/</em>.</p>
 
 <h3>Downloading the required files</h3>
 
