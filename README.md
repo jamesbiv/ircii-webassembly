@@ -4,7 +4,7 @@
 
 <p>ircII is a free, open-source Unix IRC and ICB client written in C. Initially released in the late 1980s, it is the oldest IRC client still maintained. <a href="https://en.wikipedia.org/wiki/IrcII" target="_blank">Wikipedia</a>.</p>
 
-<p>This limited emulation of ircII in WebAssembly demonstrates the use of POSIX and similar libraries such as <a href="https://en.wikipedia.org/wiki/Ncurses" target="_blank">ncurses</a> within the <a href="https://emscripten.org/" target="_blank">Emscripten</a> environment.</p>
+<p>This limited emulation of ircII in WebAssembly demonstrates the use of POSIX standard and similar libraries such as <a href="https://en.wikipedia.org/wiki/Ncurses" target="_blank">ncurses</a> within the <a href="https://emscripten.org/" target="_blank">Emscripten</a> environment.</p>
 
 <p>Advantages of this technology can be found if Emscripten's <a href="https://emscripten.org/docs/api_reference/Filesystem-API.html#FS.init">output</a> could work inline with Progressive Web Applications (PWAs) and relay screen dimensions dynamically. Further, both ircII and ncurses compile sizes are fairly large meaning optimisations to reduce compile output is needed.</p>
 
