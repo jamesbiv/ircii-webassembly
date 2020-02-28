@@ -34,84 +34,87 @@
 </div>
 
 <script type="text/javascript">
-  var statusElement = document.getElementById('status');
-  var output = document.getElementById('output');
-  var input = document.getElementById('input');
+var statusElement = document.getElementById('status');
+var output = document.getElementById('output');
+var input = document.getElementById('input');
 
-  var term = new Terminal();
+var term = new Terminal();
 	
-	var term_stdin = null;
-	var prompt_data;
+var term_stdin = null;
+var prompt_data;
 
-  term.open(output);
+term.open(output);
 
-	// Add listeners for the inputs
-	enter.addEventListener('click', function(event) {
+// Add listeners for the inputs
+enter.addEventListener('click', function(event) {
+	term_stdin = input.value+"\n";
+	input.value = ""; 
+});
+	
+input.addEventListener('keydown', function(event) {
+	if(event.keyCode == 13) { 
 		term_stdin = input.value+"\n";
 		input.value = ""; 
-	});
-	input.addEventListener('keydown', function(event) {
-		if(event.keyCode == 13) { 
-			term_stdin = input.value+"\n";
-			input.value = ""; 
-			if(event.preventDefault) event.preventDefault(); 
-      return false; 
-		}
-	});
+		if(event.preventDefault) event.preventDefault(); 
+		
+		return false; 
+	}
+});
 
-	input.focus();
+input.focus();
 
-  var Module = {
-    preRun: [function() { 
-			ENV.TERM = 'xterm-new'; 
-			ENV.IRCUSER = 'web_user';
-			ENV.USER = 'web_user';
-			ENV.IRCUMODE = '+iw';
-			ENV.IRCNAME = 'Ircii for Emscripten';
+var Module = {
+	preRun: [function() { 
+		ENV.TERM = 'xterm-new'; 
+		ENV.IRCUSER = 'web_user';
+		ENV.USER = 'web_user';
+		ENV.IRCUMODE = '+iw';
+		ENV.IRCNAME = 'Ircii for Emscripten';
 
-			function stdin() {
-				prompt_data = '';
-				if(term_stdin !== null && term_stdin.length>0) {
-		      			prompt_data = term_stdin.charCodeAt(0);
-				 	term_stdin = term_stdin.substring(1);
-				}
-
-				return prompt_data;	
-	 		}
-
-			function stdout(data) {
-				var char = String.fromCharCode(data);
-
-				if(data == 10) {
-					char = "\r\n";
-				}
-
-				term.write(char);
-			}	
-			FS.init(stdin, stdout, stdout);
-		}],
-		arguments:['NICK', 'IPADDRESS:PORT'], 
-    postRun: [],
-    setStatus: function(text) {
-			if(text.length>0) {
-      	statusElement.innerHTML = text;
+		function stdin() {
+			prompt_data = '';
+			if(term_stdin !== null && term_stdin.length>0) {
+				prompt_data = term_stdin.charCodeAt(0);
+				term_stdin = term_stdin.substring(1);
 			}
-    },
-    totalDependencies: 0,
-    monitorRunDependencies: function(left) {
-      this.totalDependencies = Math.max(this.totalDependencies, left);
-      Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies-left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
-    }
-  };
 
-  Module.setStatus('Downloading...');
+			return prompt_data;	
+		}
 
-  window.onerror = function() {
-    Module.setStatus('Exception thrown, see JavaScript console');
-    Module.setStatus = function(text) {
-      if (text) Module.printErr('[post-exception status] ' + text);
-    };
-  };
+		function stdout(data) {
+			var char = String.fromCharCode(data);
+
+			if(data == 10) {
+				char = "\r\n";
+			}
+
+			term.write(char);
+		}
+		
+		FS.init(stdin, stdout, stdout);
+	}],
+	arguments:['NICK', 'IPADDRESS:PORT'], 
+	postRun: [],
+	setStatus: function(text) {
+		if(text.length>0) {
+			statusElement.innerHTML = text;
+		}
+	},
+	totalDependencies: 0,
+	monitorRunDependencies: function(left) {
+		this.totalDependencies = Math.max(this.totalDependencies, left);
+		Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies-left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
+	}
+};
+
+Module.setStatus('Downloading...');
+
+window.onerror = function() {
+	Module.setStatus('Exception thrown, see JavaScript console');
+	Module.setStatus = function(text) {
+		if (text) Module.printErr('[post-exception status] ' + text);
+	};
+};
 </script>
 
 {{{ SCRIPT }}}
