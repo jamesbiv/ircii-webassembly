@@ -6,7 +6,7 @@
 
 <p>This limited emulation of ircII in WebAssembly demonstrates the use of POSIX standard and similar libraries such as <a href="https://en.wikipedia.org/wiki/Ncurses" target="_blank">ncurses</a> within the <a href="https://emscripten.org/" target="_blank">Emscripten</a> environment.</p>
 
-<p>Advantages of this technology can be found if the terminal's output, which is accesible via Emscripten's <a href="https://emscripten.org/docs/api_reference/Filesystem-API.html#FS.init">Standard I/O API</a> could work inline with Progressive Web Applications (PWAs) and relay screen dimensions dynamically. Further, both ircII and ncurses compile sizes are fairly large meaning optimisations to reduce compile output is needed.</p>
+<p>Advantages of this technology can be found if the terminal's output, which is accesible via Emscripten's <a href="https://emscripten.org/docs/api_reference/Filesystem-API.html#setting-up-standard-i-o-devices">Standard I/O API</a> could work inline with Progressive Web Applications (PWAs) and relay screen dimensions dynamically. Further, both ircII and ncurses compile sizes are fairly large meaning optimisations to reduce compile output is needed.</p>
 
 <p>Furthermore, help files and other extended parts of this emulation such as DCC may not work, however, makes the client fun to tinker with as it functions as a working IRC client.</p>
   
